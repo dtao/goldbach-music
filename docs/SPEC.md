@@ -37,20 +37,27 @@ shape and sound.
 - **Odd composite numbers**: only the beat and an underlying bass note.
 - **Prime numbers**:
   - Each prime has its own **unique musical signature** (motif).
+  - Motifs are **derived from the number itself**: pitches come from p's
+    digits and/or its index among the primes, mapped onto a scale; rhythm is
+    also derived from p. Deterministic and defined for every prime.
   - A prime **lingers an extra beat** (occupies two beats instead of one).
 - **Even numbers**: play **two musical sounds** — the signatures of the two
-  primes that sum to that number.
+  primes that sum to that number, **played in sequence** (p's motif, then q's).
 
 ## 6. Visuals
 
 - Each number *n* is shown as a collection of *n* **blocks** on a
   **rectangular grid**.
+- The view **zooms out to fit**: block size shrinks so the whole number is
+  always on screen.
 - Blocks are **added one at a time** as the app counts up.
 - Each **prime has its own shape** (made of blocks) and **its own color**.
 - **Prime shapes**: each prime p is a **connected polyomino of p blocks**,
   generated pseudo-randomly from a **fixed seed derived from p**. Random-looking
   but fully deterministic: prime p always gets the same shape.
   Generation should favor shapes that are visually distinct from one another.
+- **Odd composite numbers** appear as a **plain grey blob**: n neutral grey
+  blocks in a compact, roughly square layout, with no prime shapes.
 - **Even numbers** appear as the composition of two recognizable prime shapes.
 - As the count advances, blocks **shift and reform** to make the new shapes.
 - Every even number has a **deterministic shape**: the combination of two
@@ -60,8 +67,5 @@ shape and sound.
 
 _To be resolved; answers will be folded into the sections above._
 
-- How prime motifs are designed/generated
 - Handling of edge cases: 1, 2, 3, 4 (= 2 + 2, same prime twice)
-- What odd composites look like visually
-- Do the two motifs for an even number play together or in sequence?
 - Controls (play/pause, tempo, jump to *n*, range)
