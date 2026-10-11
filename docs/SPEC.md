@@ -1,7 +1,7 @@
 # Goldbach Music — Specification
 
 > Living spec. Each significant clarification gets its own commit.
-> Status: **v1 — requirements settled; ready to build.**
+> Status: **v1 — implemented (see README).**
 
 ## 1. Concept
 
@@ -17,7 +17,8 @@ layered over a steady beat).
 - Stack: **Vite + TypeScript**, unit tests with **Vitest**; deploys as a
   static site.
 - Rendering: HTML Canvas for the block grid.
-- Audio: Web Audio API (likely via Tone.js).
+- Audio: the Web Audio API used directly (no Tone.js); sound is scheduled
+  ahead of time on the audio clock, and the visuals follow that clock.
 - **Sound palette: chiptune** — square/triangle/pulse waves, noise-channel
   percussion for the beat, default tempo **~120 BPM**.
 
@@ -29,6 +30,7 @@ layered over a steady beat).
 - The sequence **starts at 1**.
 - **Soft cap, then loop**: counting stops at a cap (default **500**,
   configurable) and starts over from 1.
+- URL options: `?bpm=` (default 120) and `?cap=` (default 500).
 - Each step adds one block (n has n blocks); blocks then shift/reform into
   the shape for the new number.
 
@@ -120,3 +122,15 @@ Decisions not explicitly specified above; reasonable defaults, open to change.
   generation, composition/placement, and motif generation; separate
   modules for the renderer/animator and the audio scheduler.
 
+
+## 10. Known limitations
+
+- **Pieces almost never slide as whole units when counting up by 1.** Two
+  consecutive numbers never share a prime piece: an even n = p + q is followed
+  by a prime or a grey odd number, and a prime r is followed by r + 1 = p + q
+  with q < r. So whole-piece sliding only shows up on jumps (e.g. 12 → 18,
+  which share the 5); counting up by 1 always breaks the blocks apart and
+  rebuilds them. One possible change: keep the most recent even number's
+  pieces visible on odd/prime beats so shared primes can carry across.
+- Golden-angle hues sometimes give similar colors to primes far apart in
+  the list (e.g. 13 and 79 are both green).

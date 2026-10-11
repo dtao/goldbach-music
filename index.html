@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Goldbach Music</title>
+  </head>
+  <body>
+    <canvas id="stage"></canvas>
+    <header class="readout">
+      <div id="number" class="number">1</div>
+      <div id="caption" class="caption"></div>
+    </header>
+    <footer class="controls">
+      <button id="back" title="Step back (←)" aria-label="Step back">⏮</button>
+      <button id="play" class="play" title="Play / pause (space)" aria-label="Play">▶</button>
+      <button id="forward" title="Step forward (→)" aria-label="Step forward">⏭</button>
+      <form id="jump" class="jump">
+        <label for="jump-n">Jump to</label>
+        <input id="jump-n" type="number" min="1" inputmode="numeric" placeholder="n" />
+      </form>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
