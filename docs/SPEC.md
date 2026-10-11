@@ -1,7 +1,7 @@
 # Goldbach Music — Specification
 
 > Living spec. Each significant clarification gets its own commit.
-> Status: **Draft v1 — core decisions made, details being clarified.**
+> Status: **v1 — requirements settled; ready to build.**
 
 ## 1. Concept
 
@@ -14,7 +14,9 @@ layered over a steady beat).
 ## 2. Platform
 
 - **Web app** running in the browser.
-- Rendering: Canvas or SVG for the block grid.
+- Stack: **Vite + TypeScript**, unit tests with **Vitest**; deploys as a
+  static site.
+- Rendering: HTML Canvas for the block grid.
 - Audio: Web Audio API (likely via Tone.js).
 - **Sound palette: chiptune** — square/triangle/pulse waves, noise-channel
   percussion for the beat, default tempo **~120 BPM**.
@@ -25,6 +27,8 @@ layered over a steady beat).
 - Durations: **odd composite = 1 beat**, **prime = 2 beats**,
   **even = 1 beat**.
 - The sequence **starts at 1**.
+- **Soft cap, then loop**: counting stops at a cap (default **500**,
+  configurable) and starts over from 1.
 - Each step adds one block (n has n blocks); blocks then shift/reform into
   the shape for the new number.
 
@@ -38,7 +42,9 @@ shape and sound.
 ## 5. Audio
 
 - A **steady beat** plays underneath everything.
-- **Odd composite numbers**: only the beat and an underlying bass note.
+- **Bass** sounds on every beat and **walks with n**: it steps through a short
+  repeating pattern (e.g. root – fifth – octave – fifth) as n advances.
+- **Odd composite numbers**: only the beat and the bass note.
 - **Prime numbers**:
   - Each prime has its own **unique musical signature** (motif).
   - Motifs are **derived from the number itself**: pitches come from p's
@@ -97,7 +103,20 @@ shape and sound.
 - **Jump to n**: enter a number and continue from there.
 - **Step forward / back** one number at a time while paused.
 
-## 9. Open questions
+## 9. Implementation defaults
 
-_To be resolved; answers will be folded into the sections above._
+Decisions not explicitly specified above; reasonable defaults, open to change.
+
+- **Motif rule (initial)**: a pentatonic-ish scale over two octaves on a
+  pulse-wave lead. Notes = the decimal digits of p mapped to scale degrees;
+  rhythm = note count spread evenly across the motif's duration, with the
+  prime's index (mod a few patterns) choosing a rhythmic variant. Tuned by ear.
+- **Shape generation**: seeded PRNG (e.g. mulberry32 seeded by p) grows a
+  polyomino from a single cell by repeatedly adding a random frontier cell,
+  biased toward compactness so shapes stay recognizable as p grows.
+- **Prime-only display**: the prime's shape, centered.
+- **Odd composite layout**: grey blocks filled row by row into a near-square.
+- **Code layout**: pure, tested modules for primes/Goldbach pairs, shape
+  generation, composition/placement, and motif generation; separate
+  modules for the renderer/animator and the audio scheduler.
 
