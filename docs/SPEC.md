@@ -39,8 +39,9 @@ layered over a steady beat).
 ## 4. Goldbach pair selection
 
 For each even number n ≥ 4, use the decomposition n = p + q (p ≤ q, both
-prime) with the **smallest possible p**. Examples: 10 → 3 + 7, 28 → 5 + 23,
-4 → 2 + 2. This is deterministic, so every even number always has the same
+prime) that is **most balanced**: p and q as close to n/2 as possible
+(search p downward from n/2). Examples: 10 → 5 + 5, 28 → 11 + 17,
+98 → 37 + 61, 4 → 2 + 2. The two shapes are therefore of similar size. This is deterministic, so every even number always has the same
 shape and sound.
 
 ## 5. Audio
@@ -81,7 +82,7 @@ shape and sound.
   (e.g. scan candidate positions in a fixed order and choose the one that
   maximizes shared edges / minimizes bounding box). Same n → same picture.
 - **On-screen text**: the **current number** in large type, plus an
-  **equation/caption**: e.g. "28 = 5 + 23", "23 is prime", "21" (composite).
+  **equation/caption**: e.g. "28 = 11 + 17", "23 is prime", "21" (composite).
 - **Odd composite numbers** appear as a **plain grey blob**: n neutral grey
   blocks in a compact, roughly square layout, with no prime shapes.
 - **Even numbers** appear as the composition of two recognizable prime shapes.
@@ -91,11 +92,11 @@ shape and sound.
     where it **covers as many of the old blocks' cells as possible**. Ties go
     to the placement nearest the old centre. The camera pans to follow.
   - Prime shapes present in both the old and new number **slide as rigid
-    units** (seen on jumps, e.g. 12 → 18 share the 5).
+    units** (seen on jumps, e.g. 12 → 18 share the 7).
   - Blocks whose cell is still filled **stay put and change color**, so a
     prime visibly splits into the two primes of the next even number.
   - Remaining blocks glide to the nearest free target; the newly added block
-    drops in. On average about 86% of blocks stay put when counting up by 1.
+    drops in. On average about 70% of blocks stay put when counting up by 1.
 - Every even number has a **deterministic shape**: the combination of two
   specific primes.
 

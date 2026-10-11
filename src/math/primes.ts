@@ -23,11 +23,11 @@ export function primeIndex(p: number): number {
 
 /**
  * Goldbach decomposition of an even n ≥ 4: n = p + q with p ≤ q both prime
- * and p as small as possible.
+ * and the pair as balanced as possible (p closest to n/2).
  */
 export function goldbachPair(n: number): [number, number] {
   if (n < 4 || n % 2 !== 0) throw new Error(`${n} is not an even number ≥ 4`);
-  for (let p = 2; p <= n / 2; p++) {
+  for (let p = n / 2; p >= 2; p--) {
     if (isPrime(p) && isPrime(n - p)) return [p, n - p];
   }
   throw new Error(`No Goldbach pair for ${n} — you just disproved the conjecture!`);

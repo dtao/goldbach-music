@@ -13,8 +13,8 @@ describe('frames', () => {
 
   it('describe even numbers as two prime pieces', () => {
     const f = frameFor(28);
-    expect(f.primes).toEqual([5, 23]);
-    expect(new Set(f.blocks.map((b) => b.piece))).toEqual(new Set(['23#0', '5#0']));
+    expect(f.primes).toEqual([11, 17]);
+    expect(new Set(f.blocks.map((b) => b.piece))).toEqual(new Set(['17#0', '11#0']));
     expect(new Set(frameFor(4).blocks.map((b) => b.piece))).toEqual(new Set(['2#0', '2#1']));
   });
 
@@ -49,9 +49,9 @@ describe('transitions', () => {
   });
 
   it('move shared prime pieces rigidly', () => {
-    // 12 = 5 + 7 and 18 = 5 + 13 share the 5-piece.
+    // 12 = 5 + 7 and 18 = 7 + 11 share the 7-piece.
     const moves = planTransition(frameFor(12), ORIGIN, frameFor(18)).moves.filter((m) => m.rigid);
-    expect(moves).toHaveLength(5);
+    expect(moves).toHaveLength(7);
     const offsets = new Set(moves.map((m) => `${m.to!.x - m.from!.x},${m.to!.y - m.from!.y}`));
     expect(offsets.size).toBe(1);
   });

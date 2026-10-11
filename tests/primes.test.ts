@@ -12,11 +12,13 @@ describe('primes', () => {
     expect(() => primeIndex(9)).toThrow();
   });
 
-  it('picks the Goldbach pair with the smallest prime', () => {
+  it('picks the most balanced Goldbach pair', () => {
     expect(goldbachPair(4)).toEqual([2, 2]);
     expect(goldbachPair(6)).toEqual([3, 3]);
-    expect(goldbachPair(10)).toEqual([3, 7]);
-    expect(goldbachPair(28)).toEqual([5, 23]);
+    expect(goldbachPair(10)).toEqual([5, 5]);
+    expect(goldbachPair(12)).toEqual([5, 7]);
+    expect(goldbachPair(28)).toEqual([11, 17]);
+    expect(goldbachPair(98)).toEqual([37, 61]);
     for (let n = 4; n <= 2000; n += 2) {
       const [p, q] = goldbachPair(n);
       expect(isPrime(p) && isPrime(q) && p + q === n && p <= q).toBe(true);

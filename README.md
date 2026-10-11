@@ -5,7 +5,7 @@ the app counts up from 1, drawing each number as blocks over a chiptune beat.
 
 - **Primes** have their own block shape, color and melody, and last two beats.
 - **Even numbers** are drawn as two prime shapes fitted together, using the
-  pair with the smallest prime (28 = 5 + 23), and play both primes' melodies
+  most balanced pair (28 = 11 + 17), and play both primes' melodies
   as a quick flourish.
 - **Odd composites** are a grey block with just the beat and bass.
 
