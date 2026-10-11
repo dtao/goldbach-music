@@ -31,13 +31,11 @@ function greyBlocks(n: number): Block[] {
   return Array.from({ length: n }, (_, i) => ({ x: i % w, y: Math.floor(i / w), color: GREY, piece: null }));
 }
 
-/** Translate blocks so their bounding box is centred on the origin. */
-function centre(blocks: Block[]): { blocks: Block[]; width: number; height: number } {
+/** Translate blocks so their bounding box starts at (0, 0); coordinates stay integers. */
+function normalizeBlocks(blocks: Block[]): { blocks: Block[]; width: number; height: number } {
   const b = bounds(blocks.map((bl) => [bl.x, bl.y] as Cell));
-  const cx = (b.minX + b.maxX) / 2;
-  const cy = (b.minY + b.maxY) / 2;
   return {
-    blocks: blocks.map((bl) => ({ ...bl, x: bl.x - cx, y: bl.y - cy })),
+    blocks: blocks.map((bl) => ({ ...bl, x: bl.x - b.minX, y: bl.y - b.minY })),
     width: b.width,
     height: b.height,
   };
@@ -69,7 +67,7 @@ export function frameFor(n: number): Frame {
       break;
     }
   }
-  const frame: Frame = { n, kind, primes, ...centre(blocks) };
+  const frame: Frame = { n, kind, primes, ...normalizeBlocks(blocks) };
   frameCache.set(n, frame);
   return frame;
 }

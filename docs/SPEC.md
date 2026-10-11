@@ -83,11 +83,17 @@ shape and sound.
 - **Odd composite numbers** appear as a **plain grey blob**: n neutral grey
   blocks in a compact, roughly square layout, with no prime shapes.
 - **Even numbers** appear as the composition of two recognizable prime shapes.
-- As the count advances, blocks **shift and reform** to make the new shapes:
+- As the count advances, blocks **shift and reform** to make the new shapes,
+  using **minimal-motion morphing**:
+  - The new frame is placed (translated only; the shape itself never changes)
+    where it **covers as many of the old blocks' cells as possible**. Ties go
+    to the placement nearest the old centre. The camera pans to follow.
   - Prime shapes present in both the old and new number **slide as rigid
-    units** to their new positions.
-  - All other blocks break apart and glide individually into their new
-    arrangement; the newly added block drops in.
+    units** (seen on jumps, e.g. 12 → 18 share the 5).
+  - Blocks whose cell is still filled **stay put and change color**, so a
+    prime visibly splits into the two primes of the next even number.
+  - Remaining blocks glide to the nearest free target; the newly added block
+    drops in. On average about 86% of blocks stay put when counting up by 1.
 - Every even number has a **deterministic shape**: the combination of two
   specific primes.
 
@@ -125,12 +131,9 @@ Decisions not explicitly specified above; reasonable defaults, open to change.
 
 ## 10. Known limitations
 
-- **Pieces almost never slide as whole units when counting up by 1.** Two
-  consecutive numbers never share a prime piece: an even n = p + q is followed
-  by a prime or a grey odd number, and a prime r is followed by r + 1 = p + q
-  with q < r. So whole-piece sliding only shows up on jumps (e.g. 12 → 18,
-  which share the 5); counting up by 1 always breaks the blocks apart and
-  rebuilds them. One possible change: keep the most recent even number's
-  pieces visible on odd/prime beats so shared primes can carry across.
+- Two consecutive numbers never share a prime piece (an even n = p + q is
+  followed by a prime or a grey odd number, and a prime r by r + 1 = p + q
+  with q < r), so whole-piece sliding only appears on jumps. Minimal-motion
+  morphing (§6) is what makes counting up by 1 look like shapes reforming.
 - Golden-angle hues sometimes give similar colors to primes far apart in
   the list (e.g. 13 and 79 are both green).

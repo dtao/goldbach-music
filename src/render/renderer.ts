@@ -1,5 +1,5 @@
 import type { Block, Frame } from '../layout/frame';
-import { planTransition, type BlockMove } from '../layout/transition';
+import { planTransition, type BlockMove, type Offset } from '../layout/transition';
 
 interface Sprite {
   move: BlockMove;
@@ -19,6 +19,10 @@ export class Renderer {
   private fromScale = 1;
   private toScale = 1;
   private current: Frame | null = null;
+  private offset: Offset = { x: 0, y: 0 };
+  /** Camera centre in world coordinates, animated between frames. */
+  private fromCentre = { x: 0, y: 0 };
+  private toCentre = { x: 0, y: 0 };
   private colorCache = new Map<string, [number, number, number]>();
 
   constructor(private canvas: HTMLCanvasElement) {
@@ -44,12 +48,23 @@ export class Renderer {
   show(frame: Frame, now: number, duration: number): void {
     const prev = this.current;
     this.fromScale = prev ? this.currentScale(now) : this.fitScale(frame);
+    this.fromCentre = prev ? this.currentCentre(now) : { x: (frame.width - 1) / 2, y: (frame.height - 1) / 2 };
+    let moves: BlockMove[];
+    if (prev) {
+      const plan = planTransition(prev, this.offset, frame);
+      moves = plan.moves;
+      this.offset = plan.offset;
+    } else {
+      moves = frame.blocks.map((b) => ({ from: null, to: b, rigid: false }));
+      this.offset = { x: 0, y: 0 };
+    }
     this.toScale = this.fitScale(frame);
+    this.toCentre = {
+      x: this.offset.x + (frame.width - 1) / 2,
+      y: this.offset.y + (frame.height - 1) / 2,
+    };
     this.start = now;
     this.duration = duration;
-    const moves: BlockMove[] = prev
-      ? planTransition(prev, frame)
-      : frame.blocks.map((b) => ({ from: null, to: b, rigid: false }));
     this.sprites = moves.map((move, i) => ({
       move,
       // Rigid pieces glide together; loose blocks scatter with a small deterministic stagger.
@@ -61,6 +76,14 @@ export class Renderer {
   private currentScale(now: number): number {
     const t = easeInOut(clamp01((now - this.start) / this.duration));
     return this.fromScale + (this.toScale - this.fromScale) * t;
+  }
+
+  private currentCentre(now: number): { x: number; y: number } {
+    const t = easeInOut(clamp01((now - this.start) / this.duration));
+    return {
+      x: this.fromCentre.x + (this.toCentre.x - this.fromCentre.x) * t,
+      y: this.fromCentre.y + (this.toCentre.y - this.fromCentre.y) * t,
+    };
   }
 
   private rgb(color: string): [number, number, number] {
@@ -99,8 +122,9 @@ export class Renderer {
     const size = scale * 0.88;
     const radius = Math.min(size * 0.18, 6);
     const stage = this.stage();
-    const cx = w / 2;
-    const cy = (stage.top + stage.bottom) / 2;
+    const centre = this.currentCentre(now);
+    const cx = w / 2 - centre.x * scale;
+    const cy = (stage.top + stage.bottom) / 2 - centre.y * scale;
 
     for (const { move, delay } of this.sprites) {
       const t = clamp01((progress - delay) / (1 - delay));
