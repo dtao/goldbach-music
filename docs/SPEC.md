@@ -20,7 +20,9 @@ layered over a steady beat).
 ## 3. Timeline
 
 - The app counts upward, **one number per beat**.
-- **Primes hold for 2 beats** (the "extra beat" in §4).
+- Durations: **odd composite = 1 beat**, **prime = 2 beats**,
+  **even = 1 beat**.
+- The sequence **starts at 1**.
 - Each step adds one block (n has n blocks); blocks then shift/reform into
   the shape for the new number.
 
@@ -42,7 +44,9 @@ shape and sound.
     also derived from p. Deterministic and defined for every prime.
   - A prime **lingers an extra beat** (occupies two beats instead of one).
 - **Even numbers**: play **two musical sounds** — the signatures of the two
-  primes that sum to that number, **played in sequence** (p's motif, then q's).
+  primes that sum to that number, **played in sequence** (p's motif, then q's),
+  compressed into a **single quick beat** like a flourish. The full-length
+  motif is heard when the prime itself is reached.
 
 ## 6. Visuals
 
@@ -59,13 +63,29 @@ shape and sound.
 - **Odd composite numbers** appear as a **plain grey blob**: n neutral grey
   blocks in a compact, roughly square layout, with no prime shapes.
 - **Even numbers** appear as the composition of two recognizable prime shapes.
-- As the count advances, blocks **shift and reform** to make the new shapes.
+- As the count advances, blocks **shift and reform** to make the new shapes:
+  - Prime shapes present in both the old and new number **slide as rigid
+    units** to their new positions.
+  - All other blocks break apart and glide individually into their new
+    arrangement; the newly added block drops in.
 - Every even number has a **deterministic shape**: the combination of two
   specific primes.
 
-## 7. Open questions
+## 7. Edge cases
+
+- **1**: a single grey block (neither prime nor composite); beat + bass only.
+- **2**: prime (its own shape, color, motif; 2 beats).
+- **3**: prime.
+- **4 = 2 + 2**: the 2-shape shown twice; the 2-motif played twice.
+
+## 8. Controls
+
+- **Play / pause** (also satisfies the browser's user-gesture requirement
+  for starting audio).
+- **Jump to n**: enter a number and continue from there.
+- **Step forward / back** one number at a time while paused.
+
+## 9. Open questions
 
 _To be resolved; answers will be folded into the sections above._
 
-- Handling of edge cases: 1, 2, 3, 4 (= 2 + 2, same prime twice)
-- Controls (play/pause, tempo, jump to *n*, range)
