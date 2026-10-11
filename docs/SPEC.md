@@ -31,6 +31,8 @@ layered over a steady beat).
 - **Soft cap, then loop**: counting stops at a cap (default **500**,
   configurable) and starts over from 1.
 - URL options: `?bpm=` (default 120) and `?cap=` (default 500).
+- **Hosting**: GitHub Pages, built, tested and deployed by GitHub Actions
+  (`.github/workflows/deploy.yml`) on every push to `main`.
 - Each step adds one block (n has n blocks); blocks then shift/reform into
   the shape for the new number.
 

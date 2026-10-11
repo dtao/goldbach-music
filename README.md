@@ -20,5 +20,12 @@ npm test          # unit tests
 npm run build     # static site in dist/
 ```
 
+## Deploying
+
+Pushes to `main` build, test and deploy to GitHub Pages via
+`.github/workflows/deploy.yml`. One-time setup: in the repo's **Settings →
+Pages**, set **Source** to **GitHub Actions**. The site is then served at
+`https://dtao.github.io/goldbach-music/`.
+
 Controls: **Space** plays or pauses, **← / →** steps back or forward, and the
 box jumps to any number. URL options: `?bpm=120&cap=500`.
