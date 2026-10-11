@@ -16,6 +16,8 @@ layered over a steady beat).
 - **Web app** running in the browser.
 - Rendering: Canvas or SVG for the block grid.
 - Audio: Web Audio API (likely via Tone.js).
+- **Sound palette: chiptune** — square/triangle/pulse waves, noise-channel
+  percussion for the beat, default tempo **~120 BPM**.
 
 ## 3. Timeline
 
@@ -60,6 +62,16 @@ shape and sound.
   generated pseudo-randomly from a **fixed seed derived from p**. Random-looking
   but fully deterministic: prime p always gets the same shape.
   Generation should favor shapes that are visually distinct from one another.
+- **Prime colors**: golden-angle hue — hue = (k × 137.5°) mod 360, where k is
+  the prime's index (2 → k=1, 3 → k=2, 5 → k=3, …). Fixed saturation/lightness
+  so every prime is vivid and neighbors contrast.
+- **Even-number composition**: the p-shape and q-shape are placed
+  **interlocking and touching** — edge-adjacent, never overlapping — with the
+  smaller shape tucked against the larger by a deterministic placement rule
+  (e.g. scan candidate positions in a fixed order and choose the one that
+  maximizes shared edges / minimizes bounding box). Same n → same picture.
+- **On-screen text**: the **current number** in large type, plus an
+  **equation/caption**: e.g. "28 = 5 + 23", "23 is prime", "21" (composite).
 - **Odd composite numbers** appear as a **plain grey blob**: n neutral grey
   blocks in a compact, roughly square layout, with no prime shapes.
 - **Even numbers** appear as the composition of two recognizable prime shapes.
